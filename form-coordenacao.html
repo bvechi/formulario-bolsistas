@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário da Coordenação – Solicitação de Bolsa</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="card">
+    <h2>Formulário da Coordenação</h2>
+    <p>Preencha os dados abaixo para iniciar a solicitação de bolsa. O bolsista receberá automaticamente um e-mail com instruções, documentos exigidos e a data limite para preenchimento.</p>
+
+    <form id="formCoordenacao">
+      <fieldset>
+        <legend>Informações da bolsa</legend>
+        <label>Grupo de pesquisa</label>
+        <input type="text" name="grupo" required>
+
+        <label>Data inicial do contrato</label>
+        <input type="date" name="dataInicio" required>
+
+        <label>Data final do contrato</label>
+        <input type="date" name="dataFim" required>
+
+        <label>Carga horária mensal</label>
+        <input type="text" name="carga" required>
+
+        <label>Valor da bolsa</label>
+        <input type="text" name="valor" required>
+
+        <label>Atividade</label>
+        <input type="text" name="atividade" required>
+
+        <label>Meta vinculada</label>
+        <input type="text" name="meta" required>
+
+        <label>Ficará no Ibict?</label>
+        <select name="ficara" required>
+          <option value="Sim">Sim</option>
+          <option value="Não">Não</option>
+        </select>
+
+        <label>Coordenação?</label>
+        <select name="coordenacao" required>
+          <option value="Sim">Sim</option>
+          <option value="Não">Não</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <legend>Envio automático</legend>
+        <label>E-mail do bolsista</label>
+        <input type="email" name="emailBolsista" required>
+
+        <label>Prazo para resposta (em dias úteis)</label>
+        <input type="number" name="prazoDiasUteis" required min="1">
+      </fieldset>
+
+      <button type="submit">Enviar solicitação</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("formCoordenacao").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = document.getElementById("formCoordenacao");
+      const formData = new FormData(form);
+      formData.append("origem", "coordenacao");
+
+      fetch("https://script.google.com/macros/s/AKfycbwAJ1Z_Biwia5Dy4Go-66RmEZpv2D1yLW74d0_XiXq8dEsltJRls7O1I9LTI8k_iaqEMQ/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(() => {
+        alert("Solicitação enviada ao bolsista com sucesso!");
+        form.reset();
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+        alert("Erro ao enviar. Verifique sua conexão.");
+      });
+    });
+  </script>
+</body>
+</html>

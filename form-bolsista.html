@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário do Bolsista</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .info-box {
+      background-color: #f0f4ff;
+      border-left: 5px solid #0056b3;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    .info-box p {
+      margin: 6px 0;
+    }
+    fieldset {
+      border: none;
+      margin-bottom: 28px;
+    }
+    legend {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Formulário do Bolsista</h2>
+    <p>Confira os dados preenchidos pela coordenação e, em seguida, complete o formulário com seus dados e documentos obrigatórios.</p>
+
+    <div class="info-box">
+      <p><strong>Grupo de pesquisa:</strong> <span id="grupo"></span></p>
+      <p><strong>Data de início:</strong> <span id="dataInicio"></span></p>
+      <p><strong>Data de término:</strong> <span id="dataFim"></span></p>
+      <p><strong>Carga horária mensal:</strong> <span id="carga"></span></p>
+      <p><strong>Valor da bolsa:</strong> <span id="valor"></span></p>
+      <p><strong>Atividade:</strong> <span id="atividade"></span></p>
+      <p><strong>Meta vinculada:</strong> <span id="meta"></span></p>
+      <p><strong>Ficará no Ibict:</strong> <span id="ficara"></span></p>
+      <p><strong>Coordenação:</strong> <span id="coordenacao"></span></p>
+      <p><strong>Prazo para resposta:</strong> até <span id="prazo"></span></p>
+    </div>
+
+    <form id="formBolsista" enctype="multipart/form-data">
+      <fieldset>
+        <legend>Seus dados pessoais</legend>
+        <label>Nome completo</label><input type="text" name="nome" required>
+        <label>CPF</label><input type="text" name="cpf" required>
+        <label>Data de nascimento</label><input type="date" name="nascimento">
+        <label>Nome da mãe</label><input type="text" name="mae">
+        <label>Identidade</label><input type="text" name="identidade">
+        <label>Órgão Expedidor</label><input type="text" name="orgao">
+        <label>Data de expedição</label><input type="date" name="dataExpedicao">
+        <label>Nacionalidade</label><input type="text" name="nacionalidade">
+        <label>Profissão</label><input type="text" name="profissao">
+        <label>Formação</label><input type="text" name="formacao">
+        <label>CEP</label><input type="text" name="cep">
+        <label>Endereço</label><input type="text" name="endereco">
+        <label>Número</label><input type="text" name="numero">
+        <label>Complemento</label><input type="text" name="complemento">
+        <label>Bairro</label><input type="text" name="bairro">
+        <label>UF</label><input type="text" name="uf">
+        <label>Cidade</label><input type="text" name="cidade">
+        <label>Telefone</label><input type="text" name="telefone">
+        <label>Servidor</label><input type="text" name="servidor">
+        <label>SIAPE</label><input type="text" name="siape">
+        <label>Telefone Alternativo</label><input type="text" name="telefoneAlt">
+        <label>Grupo de pesquisa</label><input type="text" name="grupo">
+        <label>Currículo Lattes</label><input type="url" name="lattes">
+      </fieldset>
+
+      <fieldset>
+        <legend>Documentos obrigatórios</legend>
+        <label>CNH</label><input type="file" name="cnh" required>
+        <label>Certidão de regularidade do CPF</label><input type="file" name="cpfRegular" required>
+        <label>Diploma</label><input type="file" name="diploma" required>
+      </fieldset>
+
+      <button type="submit">Enviar</button>
+    </form>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const campos = ["grupo", "dataInicio", "dataFim", "carga", "valor", "atividade", "meta", "ficara", "coordenacao", "prazo"];
+    campos.forEach(c => {
+      document.getElementById(c).textContent = params.get(c) || "(não informado)";
+    });
+
+    document.getElementById("formBolsista").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = document.getElementById("formBolsista");
+      const formData = new FormData(form);
+      fetch("https://script.google.com/macros/s/AKfycbwAJ1Z_Biwia5Dy4Go-66RmEZpv2D1yLW74d0_XiXq8dEsltJRls7O1I9LTI8k_iaqEMQ/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(() => {
+        alert("Formulário enviado com sucesso!");
+        form.reset();
+      })
+      .catch((error) => {
+        console.error("Erro:", error);
+        alert("Erro ao enviar. Verifique sua conexão.");
+      });
+    });
+  </script>
+</body>
+</html>
