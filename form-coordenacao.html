@@ -62,25 +62,22 @@
   </div>
 
   <script>
-    document.getElementById("formCoordenacao").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const form = document.getElementById("formCoordenacao");
-      const formData = new FormData(form);
-      formData.append("origem", "coordenacao");
+  document.getElementById("formCoordenacao").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const form = document.getElementById("formCoordenacao");
+    const formData = new FormData(form);
+    formData.append("origem", "coordenacao");
 
-      fetch("https://script.google.com/macros/s/AKfycbwAJ1Z_Biwia5Dy4Go-66RmEZpv2D1yLW74d0_XiXq8dEsltJRls7O1I9LTI8k_iaqEMQ/exec", {
-        method: "POST",
-        body: formData
-      })
-      .then(() => {
-        alert("Solicitação enviada ao bolsista com sucesso!");
-        form.reset();
-      })
-      .catch((error) => {
-        console.error("Erro:", error);
-        alert("Erro ao enviar. Verifique sua conexão.");
-      });
+    fetch("https://script.google.com/macros/s/AKfycbwAJ1Z_Biwia5Dy4Go-66RmEZpv2D1yLW74d0_XiXq8dEsltJRls7O1I9LTI8k_iaqEMQ/exec", {
+      method: "POST",
+      mode: "no-cors",
+      body: formData
     });
-  </script>
+
+    alert("Solicitação enviada ao bolsista com sucesso!");
+    form.reset();
+  });
+</script>
+
 </body>
 </html>
